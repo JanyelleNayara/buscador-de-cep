@@ -8,7 +8,9 @@ function App() {
   const [input, setInput] = useState('')
   const [cep, setCep] = useState({})
 
-  async function handleSearch(){
+  async function handleSearch(event){
+    event.preventDefault()
+
 
     if (input === ''){
       return alert('digite um cep válido')
@@ -20,6 +22,7 @@ function App() {
       setInput('')
 
     } catch{
+      setCep('')
       alert('Erro ao buscar o cep"')
       setInput('')
     }
@@ -28,6 +31,7 @@ function App() {
   return (
     <div className="container">
       <h1 className='title'>Buscador CEP</h1>
+      <form onSubmit={handleSearch} >
       <div className="containerInput">
         <input
           type="text"
@@ -36,19 +40,18 @@ function App() {
           onChange={(event) => setInput(event.target.value)}
         />
           
-      <button className="buttonSearch" onClick={handleSearch} >
+      <button className="buttonSearch" type='submit' >
         <FiSearch />
         </button>
       </div>
-
+      </form>
       {Object.keys(cep).length > 1 && (
         <main className='address'>
           <h2>CEP: {cep.cep} </h2>
-
-          <span>{cep.logradouro} </span>
-          <span>Complemento: {cep.complemento} </span>
-          <span>{cep.bairro} </span>
-          <span>{cep.localidade}  - {cep.uf} </span>
+          {cep.logradouro && <span>Logradouro: {cep.logradouro} </span>}
+          {cep.complemento && <span>Complemento: {cep.complemento} </span>}
+          {cep.bairro && <span> Bairro: {cep.bairro} </span>}
+          {cep.localidade && <span>Cidade: {cep.localidade}  - {cep.uf} </span>}
         </main>
       )}
 
